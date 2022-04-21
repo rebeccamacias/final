@@ -18,6 +18,8 @@ export const Home = () => {
     const res = await api.get('/users/me');
     setUser(res.user);
     setLoading(false);
+
+    await api.get('/itemsresults?searchBarContents=pizza')
   }, []);
 
   const logout = async () => {

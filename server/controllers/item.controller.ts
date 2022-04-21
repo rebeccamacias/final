@@ -1,6 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { Item } from 'server/entities/item.entity';
 import { ItemsService } from 'server/providers/services/items.service';
+
+import * as superagent from "superagent";
 
 class ItemsBody {
   name: string;
@@ -29,11 +31,20 @@ export class ItemsController {
     return { items };
   }
 
-  @Get('/items/:searchBarContents') //get kroger item equivalent TODO: Hi Anne this is a mess good luck! :)
-  async getKrogerItem(@Param('searchBarContents') searchBarContents: string) {
-    const items = 0; //
-    // await this.itemsService.findByKrogerId(krogerId);
-    return { items };
+  @Get('/itemsresults') //get item results from api
+  async getKrogerItem(@Query('searchBarContents') searchBarContents: string) {
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "Accept": "application/json",
+        "Authorization": "Bearer {{TOKEN}}"
+      }
+    }
+    
+    const result = await superagent.get("https://api.spoonacular.com/food/products/search?query=pizza&addProductInformation=true&apiKey=" + process.env.APIKEY)
+    console.log(result.body);
+
+    return { items:result.body.products };
   }
 
   @Post('/items') //create a new item
