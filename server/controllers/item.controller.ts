@@ -32,7 +32,7 @@ export class ItemsController {
   }
 
   @Get('/itemsresults') //get item results from api
-  async getKrogerItem(@Query('searchBarContents') searchBarContents: string) {
+  async getItemFromAPI(@Query('searchBarContents') searchBarContents: string) {
     var settings = {
       "method": "GET",
       "headers": {
