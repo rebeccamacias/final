@@ -1,6 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { Item } from 'server/entities/item.entity';
 import { ItemsService } from 'server/providers/services/items.service';
+
+// import * as $ from "jquery";
+//import * as fetch from "node-fetch";
+import * as superagent from "superagent";
 
 class ItemsBody {
   name: string;
@@ -29,11 +33,33 @@ export class ItemsController {
     return { items };
   }
 
-  @Get('/items/:searchBarContents') //get kroger item equivalent TODO: Hi Anne this is a mess good luck! :)
-  async getKrogerItem(@Param('searchBarContents') searchBarContents: string) {
+  @Get('/itemsresults') //get kroger item equivalent TODO: Hi Anne this is a mess good luck! :)
+  async getKrogerItem(@Query('searchBarContents') searchBarContents: string) {
     const items = 0; //
-    // await this.itemsService.findByKrogerId(krogerId);
-    return { items };
+    //////////////////////////////////////////////////////////
+
+    var settings = {
+      // "async": true,
+      // "crossDomain": true,
+      // "url": "https://api.kroger.com/v1/products?filter.term=" + searchBarContents,
+      "method": "GET",
+      "headers": {
+        "Accept": "application/json",
+        "Authorization": "Bearer {{TOKEN}}"
+      }
+    }
+    
+    // $.ajax(settings).done(function (response) {
+    //   console.log(response);
+    // });
+
+    // fetch("https://api.kroger.com/v1/products?filter.term=" + searchBarContents, settings)
+    
+    const result = await superagent.get("https://api.spoonacular.com/food/products/search?query=pizza&addProductInformation=true&apiKey=" + process.env.APIKEY)
+    console.log(result.body);
+
+    //////////////////////////////////////////////////////////
+    return { items:result.body.products };
   }
 
   @Post('/items') //create a new item
