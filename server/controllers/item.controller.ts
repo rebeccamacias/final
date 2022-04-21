@@ -7,7 +7,6 @@ class ItemsBody {
   quantity: number;
   groceryListId: number;
   isPurchased: boolean;
-  searchBarContents: string;
 }
 
 class ItemsBodyWithId {
