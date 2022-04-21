@@ -7,7 +7,7 @@ class ItemsBody {
   quantity: number;
   groceryListId: number;
   isPurchased: boolean;
-  krogerId: string;
+  searchBarContents: string;
 }
 
 class ItemsBodyWithId {
@@ -30,8 +30,8 @@ export class ItemsController {
     return { items };
   }
 
-  @Get('/items/:krogerId') //get kroger item equivalent TODO: Hi Anne this is a mess good luck! :)
-  async getKrogerItem(@Param('krogerId') krogerId: string) {
+  @Get('/items/:searchBarContents') //get kroger item equivalent TODO: Hi Anne this is a mess good luck! :)
+  async getKrogerItem(@Param('searchBarContents') searchBarContents: string) {
     const items = 0; //
     // await this.itemsService.findByKrogerId(krogerId);
     return { items };

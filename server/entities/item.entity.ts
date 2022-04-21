@@ -16,8 +16,4 @@ export class Item {
 
   @Column()
   isPurchased: boolean;
-
-  @Column()
-  krogerId: string;
-
 }
