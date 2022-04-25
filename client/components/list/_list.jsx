@@ -5,7 +5,7 @@ import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
 
-export const Home = () => {
+export const List = () => {
   const [, setAuthToken] = useContext(AuthContext);
   const api = useContext(ApiContext);
   const roles = useContext(RolesContext);
@@ -14,7 +14,7 @@ export const Home = () => {
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState([]);
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);

@@ -15,7 +15,7 @@ export const Home = () => {
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [lists, setLists] = useState(null);
+  const [lists, setLists] = useState([]);
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
@@ -50,7 +50,7 @@ export const Home = () => {
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
 
-
+      {listMap}
 
       <Button type="button" onClick={logout}>
         Logout
