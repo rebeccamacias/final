@@ -4,6 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
+import { Link } from 'react-router-dom';
 
 export const Home = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -40,7 +41,7 @@ export const Home = () => {
   const listMap = lists.map((list) =>{
     return (
     <div>
-          <h1>{list.name}</h1>
+          <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 text-black">{list.name}</Link>
           <Button>Go to {list.name}</Button>
     </div>)
 });
