@@ -21,7 +21,7 @@ export const Home = () => {
     setUser(res.user);
     setLoading(false);
     // Get lists
-    
+    // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
   }, []);
 
   const logout = async () => {
