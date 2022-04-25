@@ -4,9 +4,8 @@ import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
-import { Link } from 'react-router-dom';
 
-export const Home = () => {
+export const List = () => {
   const [, setAuthToken] = useContext(AuthContext);
   const api = useContext(ApiContext);
   const roles = useContext(RolesContext);
@@ -15,51 +14,33 @@ export const Home = () => {
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [lists, setLists] = useState([]);
+  const [items, setItems] = useState([]);
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
     setLoading(false);
-    // Get lists
+    // Get items for list
     // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
   }, []);
 
-  const logout = async () => {
-    const res = await api.del('/sessions');
-    if (res.success) {
-      setAuthToken(null);
-    }
-  };
+
+  // Add item to list
 
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  // Create a list
-
   // Get items, then map them here
-  const listMap = lists.map((list) =>{
-    return (
-    <div>
-          <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 text-black">{list.name}</Link>
-          <Button>Go to {list.name}</Button>
-    </div>)
-});
-
+  const itemsMap = items.map((item) =>{
+      return (
+      <div>
+            <h1>{item.name}</h1>
+            <Button>Remove item from list, or mark as done. change later</Button>
+      </div>)
+  });
   return (
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
-
-      {listMap}
-
-      <Button type="button" onClick={logout}>
-        Logout
-      </Button>
-      {roles.includes('admin') && (
-        <Button type="button" onClick={() => navigate('/admin')}>
-          Admin
-        </Button>
-      )}
+        {itemsMap}
     </div>
   );
 };
