@@ -20,7 +20,7 @@ export const List = () => {
     setUser(res.user);
     setLoading(false);
     // Get items for list
-    await api.get('/itemsresults?searchBarContents=pizza')
+    
   }, []);
 
 
