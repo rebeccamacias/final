@@ -5,6 +5,7 @@ import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
 import { Input} from '../common/input';
+import { Item } from './listItem';
 
 export const List = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -38,10 +39,8 @@ export const List = () => {
   // Get items, then map them here
   const itemsMap = items.map((item) =>{
       return (
-      <div>
-            <h1>{item.name}</h1>
-            <Button>Remove item from list, or mark as done. change later</Button>
-      </div>)
+        <Item item={item} key={item.id}></Item>
+      )
   });
 
   // Search bar
