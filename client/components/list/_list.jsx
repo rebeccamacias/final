@@ -56,7 +56,7 @@ export const List = () => {
   };
 
   // Add item to list from options
-  const addItem = () =>{
+  const addItem = async () =>{
     if (selectVal = "") return;
     const itemsBody = {
       name: selectVal.desc,
