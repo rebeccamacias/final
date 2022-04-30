@@ -4,6 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
+import { Input} from '../common/input';
 
 export const List = () => {
   const [, setAuthToken] = useContext(AuthContext);
@@ -12,14 +13,20 @@ export const List = () => {
 
   const navigate = useNavigate();
 
+  const {listId} = useParams();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [items, setItems] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [selectVal, setSelectVal] = useState("");
+
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
     setLoading(false);
+    const { items } = await api.get(`/items/${listId}`);
+    setItems(items);
     // Get items for list
     // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
   }, []);
@@ -39,6 +46,30 @@ export const List = () => {
       </div>)
   });
 
+  // Search bar
+  const search = () => {
+    if (searchInput == "") return;
+
+    // Make api call and save 
+    //const apiResult =
+    //setSearchResults(apiResult)
+  };
+
+  // Add item to list from options
+  const addItem = () =>{
+    if (selectVal = "") return;
+    const itemsBody = {
+      name: selectVal.desc,
+      quantity: 1,
+      groceryListId: listId,
+      isPurchased: false,
+    };
+
+    const { itemCreated } = await api.post('/items',itemsBody);
+
+    setItems([...items, itemCreated]);
+  };
+
   // get search results, then map as such
   const searchResultsMap = searchResults.map((result)=>{
     return (<option value={result}>{result.desc}</option>);
@@ -47,11 +78,13 @@ export const List = () => {
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
         {itemsMap}
-        <input>Search for item</input>
+        <Input type="text" value={searchInput} onChange={(e)=> {setSearchInput(e.target.value);}} placeholder="Search for item"></Input>
+        <Button type="button" onClick={saveProject}>Search for items</Button>
         <label for="searchResults">Pick a result to add</label>
-        <select name="searchResults" id="searchResults">
+        <select name="searchResults" id="searchResults" value={selectVal} onChange={e => setSelectVal(e.currentTarget.value)}>
           {searchResultsMap}
         </select>
+        <Button onClick={addItem}>Add selected item to list</Button>
     </div>
   );
 };
