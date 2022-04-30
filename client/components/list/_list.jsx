@@ -15,6 +15,7 @@ export const List = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [items, setItems] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
@@ -37,10 +38,20 @@ export const List = () => {
             <Button>Remove item from list, or mark as done. change later</Button>
       </div>)
   });
+
+  // get search results, then map as such
+  const searchResultsMap = searchResults.map((result)=>{
+    return (<option value={result}>{result.desc}</option>);
+  });
   return (
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
         {itemsMap}
+        <input>Search for item</input>
+        <label for="searchResults">Pick a result to add</label>
+        <select name="searchResults" id="searchResults">
+          {searchResultsMap}
+        </select>
     </div>
   );
 };
