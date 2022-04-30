@@ -9,9 +9,6 @@ import { Input} from '../common/input';
 export const List = () => {
   const [, setAuthToken] = useContext(AuthContext);
   const api = useContext(ApiContext);
-  const roles = useContext(RolesContext);
-
-  const navigate = useNavigate();
 
   const {listId} = useParams();
   const [loading, setLoading] = useState(true);
@@ -20,6 +17,7 @@ export const List = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
   const [selectVal, setSelectVal] = useState("");
+  const [searchResultMap, setSearchResultMap] = useState(null);
 
   useEffect(async () => {
     const res = await api.get('/users/me');
@@ -53,6 +51,9 @@ export const List = () => {
     // Make api call and save 
     //const apiResult =
     //setSearchResults(apiResult)
+    setSearchResultMap(searchResults.map((result)=>{
+      return (<option value={result}>{result.desc}</option>);
+    }));
   };
 
   // Add item to list from options
@@ -70,10 +71,7 @@ export const List = () => {
     setItems([...items, itemCreated]);
   };
 
-  // get search results, then map as such
-  const searchResultsMap = searchResults.map((result)=>{
-    return (<option value={result}>{result.desc}</option>);
-  });
+
   return (
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
