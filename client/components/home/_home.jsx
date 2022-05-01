@@ -20,7 +20,7 @@ export const Home = () => {
 
   useEffect(async () => {
     const res = await api.get('/users/me');
-    const { groceryLists } = await api.get('/grocery_lists');
+    const { groceryLists } = await api.get('/grocery_lists/mine');
     setUser(res.user);
     setLists(groceryLists);
     setLoading(false);

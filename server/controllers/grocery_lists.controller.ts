@@ -23,7 +23,7 @@ export class GroceryListsController {
     return { groceryLists };
   }
 
-  @Get('/grocery_lists/:id') //get all grocery lists from a specific user
+  @Get('/grocery_lists/mine') //get all grocery lists from a specific user
   public async getMyLists(@JwtBody() jwtBody: JwtBodyDto) {
     const groceryLists = await this.groceryListsService.findAllForUser(jwtBody.userId);
     return { groceryLists };
