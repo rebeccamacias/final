@@ -40,9 +40,12 @@ export class ItemsController {
         "Authorization": "Bearer {{TOKEN}}"
       }
     }
+
+    console.log(searchBarContents)
     
     //const result = await superagent.get("https://api.spoonacular.com/food/products/search?query=pizza&addProductInformation=true&apiKey=" + process.env.APIKEY)
-    const result = await superagent.get("https://api.spoonacular.com/food/products/search?query=pizza&apiKey=" + process.env.APIKEY)
+    // const result = await superagent.get("https://api.spoonacular.com/food/products/search?query=pizza&apiKey=" + process.env.APIKEY)
+    const result = await superagent.get("https://api.spoonacular.com/food/products/search?query=" + searchBarContents + "&apiKey=" + process.env.APIKEY)
     console.log(result.body);
 
     return { items:result.body.products };

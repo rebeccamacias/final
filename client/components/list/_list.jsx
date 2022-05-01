@@ -26,8 +26,6 @@ export const List = () => {
     setLoading(false);
     const { items } = await api.get(`/items/${listId}`);
     setItems(items);
-    // Get items for list
-    // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
   }, []);
 
 
@@ -48,8 +46,8 @@ export const List = () => {
     if (searchInput == "") return;
 
     // Make api call and save 
-    //const apiResult =
-    //setSearchResults(apiResult)
+    // const apiResult = await api.get('/itemsresults?searchBarContents=' + searchInput);
+    // setSearchResults(apiResult)
     setSearchResultMap(searchResults.map((result)=>{
       return (<option value={result}>{result.desc}</option>);
     }));
