@@ -1,21 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GroceryList } from 'server/entities/grocery_list.entity';
+import { User } from "server/entities/user.entity";
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class GroceryListsService {
   constructor(
     @InjectRepository(GroceryList)
-    private readonly groceryListRepository: Repository<GroceryList>,
-  ) {}
+        private groceryListRepository: Repository<GroceryList>, 
+        @InjectRepository(User)
+        private userRepository: Repository<User>, 
+    ) {}
 
   findAll(): Promise<GroceryList[]> {
     return this.groceryListRepository.find();
   }
 
-  findOne(id: number): Promise<GroceryList> {
-    return this.groceryListRepository.findOne(id);
+  getListById(id: number): Promise<GroceryList> {
+    return this.groceryListRepository.findOne(id, {
+        relations: ['users'],
+    })
+  }
+
+  async findAllForUser(userId: number): Promise<GroceryList[]> {
+    return (await this.userRepository.findOne(userId, {
+        relations: ['groceryList'],
+    })).groceryLists
   }
 
   async create(groceryList: GroceryList): Promise<GroceryList> {

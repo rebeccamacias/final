@@ -18,15 +18,15 @@ export class GroceryListsController {
   constructor(private groceryListsService: GroceryListsService) {}
 
   @Get('/grocery_lists') //get all grocery lists
-  async index() {
+  public async getAllGroceryLists() {
     const groceryLists = await this.groceryListsService.findAll();
     return { groceryLists };
   }
 
   @Get('/grocery_lists/:id') //get all grocery lists from a specific user
-  async show(@Param('id') id: string) {
-    const groceryList = await this.groceryListsService.findOne(parseInt(id));
-    return { groceryList };
+  public async getMyLists(@JwtBody() jwtBody: JwtBodyDto) {
+    const groceryLists = await this.groceryListsService.findAllForUser(jwtBody.userId);
+    return { groceryLists };
   }
 
   @Post('/grocery_lists') //create a new grocery list
@@ -41,7 +41,7 @@ export class GroceryListsController {
 
   @Put('/grocery_lists/:id') //update a grocery list's name
   async update(@Param('id') id: string, @Body() body: GroceryListBodyWithId) {
-    let groceryList = await this.groceryListsService.findOne(parseInt(id));
+    let groceryList = await this.groceryListsService.getListById(body.id);
     groceryList.name = body.name;
     return await this.groceryListsService.update(groceryList);
   }

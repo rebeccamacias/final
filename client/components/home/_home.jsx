@@ -7,18 +7,22 @@ import { Button } from '../common/button';
 import { Link } from 'react-router-dom';
 
 export const Home = () => {
-  const [, setAuthToken] = useContext(AuthContext);
   const api = useContext(ApiContext);
-  const roles = useContext(RolesContext);
 
-  const navigate = useNavigate();
+  const [lists, setLists] = useState([]);
+
+  const [, setAuthToken] = useContext(AuthContext);
+  const roles = useContext(RolesContext);
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [lists, setLists] = useState([]);
+  const [name, setName] = useState('');
+
   useEffect(async () => {
     const res = await api.get('/users/me');
+    const { groceryLists } = await api.get('/grocery_lists');
     setUser(res.user);
+    setLists(groceryLists);
     setLoading(false);
     // Get lists
     // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
@@ -32,25 +36,34 @@ export const Home = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   // Create a list
+  const createList = async (name) => {
+    const listBody = {
+      name: name,
+    };
+    const { groceryList } = await api.post('/lists', listBody);
+    setLists([...groceryLists, groceryList]);
+  };
 
   // Get items, then map them here
-  const listMap = lists.map((list) =>{
-    return (
-    <div>
-          <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 text-black">{list.name}</Link>
-          <Button>Go to {list.name}</Button>
-    </div>)
-});
+  // const listMap = lists.map((list) => {
+  //   return (
+  //   <div>
+  //       <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 text-black">{list.name}</Link>
+  //       <Button>Go to {list.name}</Button>
+  //   </div>)
+  // });
 
   return (
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
+      <input type="text" value={name} onChange={(e) => {setName(e.target.value)}} />
+      <Button type="button" onClick={createList}>+</Button>
 
-      {listMap}
+      {/* {listMap} */}
 
       <Button type="button" onClick={logout}>
         Logout

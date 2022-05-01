@@ -1,5 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Item } from './item.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class GroceryList {
@@ -14,4 +15,7 @@ export class GroceryList {
 
   @OneToMany(()=> Item, (item) => item.groceryListId)
   item: Item[];
+
+  @ManyToOne (() => User, (user) => user.groceryLists, { cascade: true })
+  users: User[];
 }

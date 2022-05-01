@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinTable } from 'typeorm';
+import { GroceryList } from './grocery_list.entity';
 import { RefreshToken } from './refresh_token.entity';
 import { UserRole } from './user_role.entity';
 
@@ -24,4 +25,8 @@ export class User {
 
   @OneToMany(() => UserRole, (userRole) => userRole.user, { cascade: true })
   userRoles: UserRole[];
+
+  @OneToMany(() => GroceryList, (groceryList) => groceryList.users)
+  @JoinTable({ name: 'user_grocery_list'})
+  groceryLists: GroceryList[];
 }
