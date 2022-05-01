@@ -21,7 +21,7 @@ export const Home = () => {
     setUser(res.user);
     setLoading(false);
     // Get lists
-    // commented this thing 
+    // this call is for testing purposes only.
     // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
   }, []);
 
