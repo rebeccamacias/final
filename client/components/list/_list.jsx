@@ -79,7 +79,7 @@ export const List = () => {
         <Button type="button" onClick={saveProject}>Search for items</Button>
         <label for="searchResults">Pick a result to add</label>
         <select name="searchResults" id="searchResults" value={selectVal} onChange={e => setSelectVal(e.currentTarget.value)}>
-          {searchResultsMap}
+          {searchResultMap}
         </select>
         <Button onClick={addItem}>Add selected item to list</Button>
     </div>
