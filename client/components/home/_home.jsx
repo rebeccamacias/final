@@ -23,6 +23,9 @@ export const Home = () => {
     // Get lists
     // this call is for testing purposes only.
     // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
+
+    const dummy = [{id: 1, name: "dummy1"},{id: 2, name: "dummy2"},{id: 3, name: "dummy3"},{id: 4, name: "dummy4"},]
+    setLists(dummy);
   }, []);
 
   const logout = async () => {
