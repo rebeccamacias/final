@@ -56,8 +56,9 @@ export const Home = () => {
   const listMap = lists.map((list) =>{
     return (
     <div>
-          <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1
-          underline text-blue-600 hover:text-blue-800 visited:text-purple-600">{list.name}</Link>
+          <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 underline text-blue-600 hover:text-blue-800">
+            {list.name}
+          </Link>
     </div>)
 });
 
