@@ -66,7 +66,7 @@ export const Home = () => {
   return (
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
-      <Input type="text" value={newList} onChange={(e)=> {setNewList(e.target.value);}}>New List Name</Input>
+      New List Name <Input type="text" value={newList} onChange={(e)=> {setNewList(e.target.value);}}></Input>
       <Button type="button" onClick={createList}>Create new list</Button>
 
       {listMap}
