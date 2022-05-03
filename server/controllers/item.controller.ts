@@ -25,9 +25,9 @@ export class ItemsController {
     return { items };
   }
 
-  @Get('/items/:groceryListid') //get all items from a specific grocery list
-  async show(@Param('groceryListId') groceryListid: string) {
-    const items = await this.itemsService.findOne(parseInt(groceryListid));
+  @Get('/items/:groceryListId') //get all items from a specific grocery list
+  async show(@Param('groceryListId') groceryListId: string) {
+    const items = await this.itemsService.findAllForList(parseInt(groceryListId));
     return { items };
   }
 
