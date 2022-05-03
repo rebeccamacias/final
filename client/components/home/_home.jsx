@@ -4,6 +4,7 @@ import { ApiContext } from '../../utils/api_context';
 import { AuthContext } from '../../utils/auth_context';
 import { RolesContext } from '../../utils/roles_context';
 import { Button } from '../common/button';
+import { Input } from '../common/input';
 import { Link } from 'react-router-dom';
 
 export const Home = () => {
@@ -15,6 +16,7 @@ export const Home = () => {
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [newList, setNewList] = useState("");
   const [lists, setLists] = useState([]);
   useEffect(async () => {
     const res = await api.get('/users/me');
@@ -40,19 +42,32 @@ export const Home = () => {
   }
 
   // Create a list
+  const createList = async ()=>{
+    if (newList === '') {
+      return;
+    };
+    const groceryListBody =  {
+      name: newList,
+    };
+    const { list } = await api.post('/grocery_lists', groceryListBody);
+    setLists([...lists,list]);
+  };
 
   // Get items, then map them here
   const listMap = lists.map((list) =>{
     return (
     <div>
-          <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 text-black">{list.name}</Link>
-          <Button>Go to {list.name}</Button>
+          <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 underline text-blue-600 hover:text-blue-800">
+            {list.name}
+          </Link>
     </div>)
 });
 
   return (
     <div className="p-4">
       <h1>Welcome {user.firstName}</h1>
+      New List Name <Input type="text" value={newList} onChange={(e)=> {setNewList(e.target.value);}}></Input>
+      <Button type="button" onClick={createList}>Create new list</Button>
 
       {listMap}
 
