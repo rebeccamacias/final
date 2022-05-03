@@ -41,7 +41,7 @@ export const Home = () => {
   }
 
   // Create a list
-  const createList = ()=>{
+  const createList = async ()=>{
     if (newList === '') {
       return;
     };
