@@ -2,8 +2,8 @@ import { useState, useContext } from 'react';
 import { ApiContext } from '../../utils/api_context';
 export const Item = ({ item }) => {
   const api = useContext(ApiContext);
-  // const [checkboxChecked, setCheckboxChecked] = useState(item.isPurchased);
-  const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [checkboxChecked, setCheckboxChecked] = useState(item.isPurchased);
+  // const [checkboxChecked, setCheckboxChecked] = useState(false);
 
   const onCheckboxChange = async (e) => {
     setCheckboxChecked(e.target.checked);

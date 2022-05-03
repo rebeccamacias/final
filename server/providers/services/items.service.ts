@@ -14,6 +14,10 @@ export class ItemsService {
     return this.itemRepository.find();
   }
 
+  findAllForList(id: number): Promise<Item[]> {
+    return this.itemRepository.find({groceryListId:id});
+  }
+
   findOne(id: number): Promise<Item> {
     return this.itemRepository.findOne(id);
   }
