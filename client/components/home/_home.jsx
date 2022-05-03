@@ -21,13 +21,18 @@ export const Home = () => {
   useEffect(async () => {
     const res = await api.get('/users/me');
     setUser(res.user);
+    
     setLoading(false);
     // Get lists
     // this call is for testing purposes only.
     // let groceryApiResults = await api.get('/itemsresults?searchBarContents=pizza');
 
-    const dummy = [{id: 1, name: "dummy1"},{id: 2, name: "dummy2"},{id: 3, name: "dummy3"},{id: 4, name: "dummy4"},]
-    setLists(dummy);
+    const { groceryLists } = await api.get(`/grocery_lists`);
+    console.log(groceryLists);
+    setLists(groceryLists);
+
+    // const dummy = [{id: 1, name: "dummy1"},{id: 2, name: "dummy2"},{id: 3, name: "dummy3"},{id: 4, name: "dummy4"},]
+    // setLists(dummy);
   }, []);
 
   const logout = async () => {
@@ -49,14 +54,14 @@ export const Home = () => {
     const groceryListBody =  {
       name: newList,
     };
-    const { list } = await api.post('/grocery_lists', groceryListBody);
-    setLists([...lists,list]);
+    const { groceryList } = await api.post('/grocery_lists', groceryListBody);
+    setLists([...lists,groceryList]);
   };
 
   // Get items, then map them here
   const listMap = lists.map((list) =>{
     return (
-    <div>
+    <div key={list.id}>
           <Link to={`/lists/${list.id}`} className="border-2 rounded-lg p-1 px-1 underline text-blue-600 hover:text-blue-800">
             {list.name}
           </Link>

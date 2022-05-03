@@ -17,10 +17,16 @@ class GroceryListBodyWithId { //for updating the name of a grocery list
 export class GroceryListsController {
   constructor(private groceryListsService: GroceryListsService) {}
 
-  @Get('/grocery_lists') //get all grocery lists
-  async index() {
-    const groceryLists = await this.groceryListsService.findAll();
-    return { groceryLists };
+  // @Get('/grocery_lists') //get all grocery lists
+  // async index() {
+  //   const groceryLists = await this.groceryListsService.findAll();
+  //   return { groceryLists };
+  // }
+
+  @Get('/grocery_lists') //get all of the projects for a user
+  public async getMyProjects(@JwtBody() jwtBody: JwtBodyDto) {
+      const groceryLists = await this.groceryListsService.findAllForUser(jwtBody.userId);
+      return { groceryLists };
   }
 
   @Get('/grocery_lists/:id') //get all grocery lists from a specific user

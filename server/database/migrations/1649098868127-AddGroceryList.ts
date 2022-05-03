@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
 export class AddGroceryList1649098868127 implements MigrationInterface {
 
@@ -24,6 +24,15 @@ export class AddGroceryList1649098868127 implements MigrationInterface {
                 ],
             }),
         );
+        await queryRunner.createForeignKey(
+            'groceryList',
+            new TableForeignKey({
+              columnNames: ['userId'],
+              referencedColumnNames: ['id'],
+              referencedTableName: 'user',
+              onDelete: 'CASCADE',
+            }),
+          );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

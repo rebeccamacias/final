@@ -28,8 +28,9 @@ export const List = () => {
     setLoading(false);
     const listIdNum = parseInt(listId)
     // console.log(listIdNum)
-    // const { items } = await api.get(`/items/${listIdNum}`);
+    const { items } = await api.get(`/items/${listIdNum}`);
     setItems([{id: 1, name: "potato"}, {id: 2, name: "potato2"}, {id: 3, name: "potato3"}, {id: 4, name: "steve"}]);
+    //setItems([])
   }, []);
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export const List = () => {
         <Input type="text" value={searchInput} onChange={(e)=> {setSearchInput(e.target.value);}} placeholder="Search for item"></Input>
         <Button type="button" onClick={search}>Search for items</Button>
         <label htmlFor="searchResults">Pick a result to add</label>
-        <select name="searchResults" id="searchResults" value={""} onChange={e => setSelectVal(e.currentTarget.value)}>
+        <select name="searchResults" id="searchResults" value={selectVal.title} onChange={e => setSelectVal(e.currentTarget.value)}>
           {searchResultMap}
         </select>
         <Button onClick={addItem}>Add selected item to list</Button>
